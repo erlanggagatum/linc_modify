@@ -1,0 +1,23 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_cpu_threads_per_process` was set to `20` to improve out-of-box performance
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+Traceback (most recent call last):
+  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/runner.py", line 7, in <module>
+WARNING:torch.distributed.elastic.agent.server.api:Received 2 death signal, shutting down workers
+    import torch
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/__init__.py", line 675, in <module>
+WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 20299 closing signal SIGINT
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/_tensor.py", line 12, in <module>
+    import torch.utils.hooks as hooks
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/utils/__init__.py", line 5, in <module>
+    from ._crash_handler import enable_minidumps, disable_minidumps, enable_minidumps_on_exceptions
+  File "<frozen importlib._bootstrap>", line 1027, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1006, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 674, in _load_unlocked
+  File "<frozen importlib._bootstrap>", line 577, in module_from_spec
+  File "<frozen importlib._bootstrap>", line 556, in _init_module_attrs
+  File "<frozen importlib._bootstrap>", line 397, in cached
+  File "<frozen importlib._bootstrap_external>", line 513, in _get_cached
+  File "<frozen importlib._bootstrap_external>", line 448, in cache_from_source
+  File "<frozen importlib._bootstrap_external>", line 126, in _path_join
+KeyboardInterrupt

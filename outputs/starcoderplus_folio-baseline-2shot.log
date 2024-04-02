@@ -1,0 +1,13 @@
+The following values were not passed to `accelerate launch` and had defaults used instead:
+	`--num_cpu_threads_per_process` was set to `20` to improve out-of-box performance
+To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
+Selected Tasks: ['folio-baseline-2shot']
+Traceback (most recent call last):
+  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/runner.py", line 163, in <module>
+    main()
+  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/runner.py", line 61, in main
+    openai.api_key = os.environ[env_key]
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/os.py", line 680, in __getitem__
+    raise KeyError(key) from None
+KeyError: 'OPENAI_API_KEY'
+ERROR:torch.distributed.elastic.multiprocessing.api:failed (exitcode: 1) local_rank: 0 (pid: 20178) of binary: /home/gatum/.conda/envs/linc/bin/python

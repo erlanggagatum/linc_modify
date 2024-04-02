@@ -1,0 +1,40 @@
+Traceback (most recent call last):
+  File "/home/gatum/.conda/envs/linc/bin/accelerate", line 5, in <module>
+    from accelerate.commands.accelerate_cli import main
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/__init__.py", line 7, in <module>
+    from .accelerator import Accelerator
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/accelerator.py", line 27, in <module>
+    from .checkpointing import load_accelerator_state, load_custom_state, save_accelerator_state, save_custom_state
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/checkpointing.py", line 24, in <module>
+    from .utils import (
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/utils/__init__.py", line 96, in <module>
+    from .launch import PrepareForLaunch, _filter_args, get_launch_prefix
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/utils/launch.py", line 25, in <module>
+    import torch.distributed.run as distrib_run
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/run.py", line 386, in <module>
+    from torch.distributed.launcher.api import LaunchConfig, elastic_launch
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/launcher/__init__.py", line 10, in <module>
+    from torch.distributed.launcher.api import (  # noqa: F401
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/launcher/api.py", line 15, in <module>
+    from torch.distributed.elastic.agent.server.api import WorkerSpec
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/__init__.py", line 40, in <module>
+    from .local_elastic_agent import TORCHELASTIC_ENABLE_FILE_TIMER, TORCHELASTIC_TIMER_FILE
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/elastic/agent/server/local_elastic_agent.py", line 35, in <module>
+    log = get_logger()
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/elastic/utils/logging.py", line 32, in get_logger
+    return _setup_logger(name or _derive_module_name(depth=2))
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/distributed/elastic/utils/logging.py", line 49, in _derive_module_name
+    stack = inspect.stack()
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 1673, in stack
+    return getouterframes(sys._getframe(1), context)
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 1650, in getouterframes
+    frameinfo = (frame,) + getframeinfo(frame, context)
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 1624, in getframeinfo
+    lines, lnum = findsource(frame)
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 940, in findsource
+    file = getsourcefile(object)
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 829, in getsourcefile
+    module = getmodule(object, filename)
+  File "/home/gatum/.conda/envs/linc/lib/python3.10/inspect.py", line 871, in getmodule
+    if f == _filesbymodname.get(modname, None):
+KeyboardInterrupt

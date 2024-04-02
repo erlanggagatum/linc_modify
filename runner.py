@@ -57,8 +57,12 @@ def main():
     else:
         evaluator = None
         if args.openai_api_env_keys:
-            env_key = args.openai_api_env_keys[0]  # use any key to get list of models
-            openai.api_key = os.environ[env_key]
+            # env_key = args.openai_api_env_keys[0]  # use any key to get list of models
+            
+            os.environ['OPENAI_API_KEY'] = "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" # hardcode api key
+            openai.api_key =  "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" # hardcode api key
+            
+            # openai.api_key = os.environ[env_key]
             comp_models = {
                 "code-davinci-002",
                 "text-davinci-003",

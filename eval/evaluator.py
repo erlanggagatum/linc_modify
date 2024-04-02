@@ -99,6 +99,8 @@ class HFEvaluator(Evaluator):
         return generations_prc, generations_raw, references
 
 
+
+# OPEN AI
 class OAIEvaluator(Evaluator):
     def __init__(self, args, chat=False):
         super().__init__(args)

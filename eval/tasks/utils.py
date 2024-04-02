@@ -104,6 +104,7 @@ def reformat_fol(fol):
     return fol
 
 def evaluate(premises, conclusion):
+    # print('task/utils.py evaluation', premises, conclusion)
     premises = [reformat_fol(p) for p in premises]
     conclusion = reformat_fol(conclusion)
 
