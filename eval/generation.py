@@ -6,10 +6,9 @@ from accelerate.utils import set_seed
 
 from eval.utils import TokenizedDataset, complete_code
 
-
 class EndOfFunctionCriteria(StoppingCriteria):
     """Custom `StoppingCriteria` which checks if all generated functions in the batch are completed."""
-
+    
     def __init__(self, start_length, eof_strings, tokenizer):
         self.start_length = start_length
         self.eof_strings = eof_strings
@@ -34,6 +33,7 @@ class EndOfFunctionCriteria(StoppingCriteria):
 
 
 def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, args):
+    # print('generation.py parallel_generations')
     if args.generations_path:
         with open(args.generations_path) as fp:
             generations = json.load(fp)
@@ -61,6 +61,7 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
         print(f"number of problems for this task is {n_tasks}")
     n_copies = args.n_samples // args.batch_size
 
+    # print('generation.py dataset', dataset)
     ds_tokenized = TokenizedDataset(
         task,
         dataset,
@@ -76,6 +77,9 @@ def parallel_generations(task, dataset, accelerator, model, tokenizer, n_tasks, 
     ds_loader = DataLoader(ds_tokenized, batch_size=1)
 
     model, ds_loader = accelerator.prepare(model, ds_loader)
+    # print('generation.py model', model)
+    # print('generation.py model device', model.device)
+    
     generations_prc, generations_raw = complete_code(
         task,
         accelerator,

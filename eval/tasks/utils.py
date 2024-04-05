@@ -108,6 +108,9 @@ def evaluate(premises, conclusion):
     premises = [reformat_fol(p) for p in premises]
     conclusion = reformat_fol(conclusion)
 
+    # print('premises', premises)
+    # print('conclusion', conclusion)
+    
     c = read_expr(conclusion)
     p_list = []
     for p in premises:

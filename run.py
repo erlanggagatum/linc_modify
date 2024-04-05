@@ -1,28 +1,51 @@
 import os
-import fnmatch
+import hashlib
+import time
+import random
 import json
-import pathlib
-from warnings import warn
-
-import torch
 import openai
-import datasets
 import transformers
-from accelerate import Accelerator
+import fnmatch
+import datasets
+import pathlib
+import torch
+
+from functools import cache
+from collections import Counter
+from datasets import load_dataset
+from warnings import warn
+from abc import abstractmethod, ABC
+from eval import tasks
+from eval.utils import TokenizedDataset, complete_code
+from eval.tasks.utils import evaluate, convert_to_nltk_rep
+# from eval.generation import parallel_generations
+from diskcache import Cache
+from concurrent.futures import ThreadPoolExecutor
+
+
+from torch.utils.data.dataloader import DataLoader
+from transformers import StoppingCriteria, StoppingCriteriaList
+from accelerate.utils import set_seed
+
+from accelerate import Accelerator, DeepSpeedPlugin
 from transformers import AutoModelForCausalLM, AutoTokenizer, HfArgumentParser
+
+from eval import tasks
+from eval.generation import parallel_generations
+from eval.args import RunnerArguments, HFArguments, OAIArguments, GenerationArguments
+# from eval.evaluator import HFEvaluator, OAIEvaluator
+from eval.tasks import ALL_TASKS, TASK_REGISTRY
 
 from eval.args import RunnerArguments, HFArguments, OAIArguments, GenerationArguments
 from eval.evaluator import HFEvaluator, OAIEvaluator
 from eval.tasks import ALL_TASKS
 
+
 transformers.logging.set_verbosity_error()
 datasets.logging.set_verbosity_error()
 
 
-
-
 def main():
-    # def main():
     args = HfArgumentParser(
         [RunnerArguments, HFArguments, OAIArguments, GenerationArguments]
     ).parse_known_args()[0]
@@ -32,19 +55,21 @@ def main():
     base = 'folio'
     batch_size = 5
     max_length=8192 # max model context including prompt
-    shot = '2'
+    shot = '1'
     mode = 'neurosymbolic'
+    # mode = 'cot'
     task = f'{base}-{mode}-{shot}shot'
     # run_id='${model#*/}_${task}'
     run_id = f"{model_name}_{task}"
 
     # print('$')
-    args.top_k = 2
+    args.top_k = 0
     args.output_dir = pathlib.Path('../output/')
     args.model = model_name
     args.temperature = 0.8
     args.max_length_generation = 1024
     # args.generation_only = True
+    args.save_results = True
     args.save_generations_raw_path = args.output_dir / f'{run_id}_generations_raw.json'
     args.save_generations_prc_path = args.output_dir / f'{run_id}_generations_prc.json'
     args.save_references_path = args.output_dir / f'{run_id}_references.json'
@@ -55,8 +80,14 @@ def main():
     args.save_results_path.parent.mkdir(parents=True, exist_ok=True)
     args.allow_code_execution = True
     args.tasks = task
-    args.precision = 'fp32'
-
+    args.precision = 'fp16'
+    
+    deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=2)
+    accelerator = Accelerator(mixed_precision='fp16', deepspeed_plugin=deepspeed_plugin)
+    # accelerator = Accelerator()
+    
+    model = None
+    tokenizer = None
     # print(save_generations_raw_path)
 
     if args.tasks is None:
@@ -154,6 +185,6 @@ def main():
             if args.save_results:
                 with open(args.save_results_path, "w") as f:
                     f.write(dumped)
-                    
+    
 if __name__ == "__main__":
     main()

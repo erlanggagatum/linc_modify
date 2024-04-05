@@ -38,8 +38,8 @@ class TokenizedDataset(IterableDataset):
     def __iter__(self):
         prompts = []
         infill = []
-        print(prompts, infill, self.n_tasks)
-        print('dataset', self.dataset)
+        # print(prompts, infill, self.n_tasks)
+        # print('dataset', self.dataset)
         for sample in range(self.n_tasks):
             prompt_contents = self.task.get_prompt(self.dataset[sample])
             if isinstance(prompt_contents, str):
@@ -53,8 +53,8 @@ class TokenizedDataset(IterableDataset):
                 raise ValueError(f"Unsupported prompt format: {type(prompt_contents)}")
             prompts.append(prompt)
 
-        print('infill', infill)
-        print(len(set(infill)))
+        # print('infill', infill)
+        # print(len(set(infill)))
         if not len(set(infill)) == 1:
             raise ValueError("Mixed infill and completion prompts are not supported.")
         global INFILL_MODE
@@ -72,14 +72,14 @@ class TokenizedDataset(IterableDataset):
             max_length=self.max_length,
             return_token_type_ids=return_token_type_ids,
         )
-        print('utils.py outputs', outputs)
+        # print('utils.py outputs', outputs)
 
         if self.n_copies == 1 and self.n_tasks % self.num_devices != 0:
             self.n_copies = 2
             warnings.warn(
                 "n_copies (n_samples/batch_size) was changed from 1 to 2 because n_tasks isn't proportional to num devices"
             )
-        print('utils.py n_tasks', self.n_tasks)
+        # print('utils.py n_tasks', self.n_tasks)
 
         for sample in range(self.n_tasks):
             # print('utils.py sample', sample)
@@ -123,7 +123,7 @@ def complete_code(
     and nt is the number of tasks. nc is such that num_samples(for each task)= nc * batch_size
     """
 
-    print('in complete code')
+    # print('in complete code')
     gen_token_dict = defaultdict(list)
     for step, batch in tqdm(
         enumerate(dataloader),
@@ -155,9 +155,9 @@ def complete_code(
             # break
     # print('utils.py complete_code() gen_token_dict', gen_token_dict)
 
-    print('end in complete code 1')
+    # print('end in complete code 1')
     def parse_infill(code, tokenizer):
-        print('utils.py parse infill ')
+        # print('utils.py parse infill ')
         """Reorder infill code and remove remaining special tokens."""
         model_id = tokenizer.name_or_path
         if model_id in ["facebook/incoder-1B", "facebook/incoder-6B"]:
@@ -180,7 +180,7 @@ def complete_code(
 
     code_gens_raw = [[] for _ in range(n_tasks)]
     code_gens_prc = [[] for _ in range(n_tasks)]
-    print('generated tokens', generated_tokens)
+    # print('generated tokens', generated_tokens)
     for sample, generated_tokens in gen_token_dict.items():
         for s in generated_tokens:
             if INFILL_MODE:
@@ -206,5 +206,5 @@ def complete_code(
                 )
                 code_gens_prc[sample].append(gen_code[len(prefix) :])
     
-    print('end in complete code 1: done perform decode')
+    # print('end in complete code 1: done perform decode')
     return code_gens_prc, code_gens_raw

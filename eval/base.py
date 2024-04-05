@@ -190,12 +190,8 @@ class OWAFOLTask(Task):
         return train_dataset
 
     def get_dataset(self):
-        print('here update')
-        print('here 2')
         """Returns dataset for the task or an iterable of any object, that get_prompt can handle"""
-        # return self._test
-        return self.dataset['validation']
-
+        return self._test
 
     def get_instructions(self):
         instructions = ""
@@ -268,14 +264,13 @@ class OWAFOLTask(Task):
             index of doc in the dataset to which the generation belongs
         :return: str
         """
-        print('base.py in postprocess_generation()')
+        print('base.py in postprocess_generation')
         try:
             if completion_only:
                 gen = generation.strip()
             else:
                 prefix = self.get_prompt(self.get_dataset()[idx])
-                print('=== PREFIX ===\n', prefix)
-                print('=== GENERATION ===\n', generation)
+                print("==== PREFIX ==== ",prefix)
                 assert generation.startswith(
                     prefix
                 ), "Increase `--max_length_generation` to avoid truncation"

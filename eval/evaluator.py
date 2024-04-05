@@ -14,6 +14,7 @@ from diskcache import Cache
 from eval import tasks
 from eval.generation import parallel_generations
 
+
 _WARNING = """
 ################################################################################
                                   !!!WARNING!!!
@@ -43,6 +44,7 @@ class Evaluator(ABC):
 
     def evaluate(self, task_name):
         task = tasks.get_task(task_name)
+        print(task.requires_execution, self.allow_code_execution)
         if task.requires_execution and not self.allow_code_execution:
             raise ValueError(_WARNING)
 
@@ -83,8 +85,10 @@ class HFEvaluator(Evaluator):
         self.tokenizer = tokenizer
 
     def generate_text(self, task_name):
+        # print('evaluator.py HFEvaluator, task_name', task_name)
         task = tasks.get_task(task_name)
         dataset = task.get_dataset()
+        # print('evaluator.py', dataset)
         n_tasks = self.args.limit if self.args.limit else len(dataset)
         generations_prc, generations_raw = parallel_generations(
             task,
@@ -93,8 +97,12 @@ class HFEvaluator(Evaluator):
             self.model,
             self.tokenizer,
             n_tasks=n_tasks,
-            args=self.args,
+            args=self.
+            args,
         )
+        print('evaluator HFEvaluator generate_text() generations_prc', generations_prc)
+        print('evaluator HFEvaluator generate_text() generations_raw', generations_raw)
+        # print('evaluator HFEvaluator generate_text() references', references)
         references = [task.get_reference(dataset[i]) for i in range(n_tasks)]
         return generations_prc, generations_raw, references
 
