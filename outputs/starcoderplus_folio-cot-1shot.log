@@ -1,9 +1,0 @@
-The following values were not passed to `accelerate launch` and had defaults used instead:
-	`--num_cpu_threads_per_process` was set to `20` to improve out-of-box performance
-To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
-Selected Tasks: ['folio-cot-1shot']
-Model bigcode/starcoderplus not found in OpenAI API. Assuming HuggingFace locally.
-Loading the model and tokenizer from HF (in bf16)
-WARNING:torch.distributed.elastic.agent.server.api:Received 2 death signal, shutting down workers
-WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 20829 closing signal SIGINT
-WARNING:torch.distributed.elastic.multiprocessing.api:Sending process 20829 closing signal SIGTERM

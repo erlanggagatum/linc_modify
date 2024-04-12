@@ -9,6 +9,7 @@ import fnmatch
 import datasets
 import pathlib
 import torch
+import pandas as pd
 
 from functools import cache
 from collections import Counter
@@ -68,7 +69,7 @@ def main():
     args.model = model_name
     args.temperature = 0.8
     args.max_length_generation = 1024
-    # args.generation_only = True
+    args.generation_only = True
     args.save_results = True
     args.save_generations_raw_path = args.output_dir / f'{run_id}_generations_raw.json'
     args.save_generations_prc_path = args.output_dir / f'{run_id}_generations_prc.json'
@@ -82,14 +83,12 @@ def main():
     args.tasks = task
     args.precision = 'fp16'
     
-    # deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=2)
-    # accelerator = Accelerator(mixed_precision=args.precision, deepspeed_plugin=deepspeed_plugin)
+    deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=2)
+    accelerator = Accelerator(mixed_precision=args.precision, deepspeed_plugin=deepspeed_plugin)
+    # accelerator = Accelerator()
     
-    # deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=1)
-    # accelerator = Accelerator(mixed_precision='fp16', deepspeed_plugin=deepspeed_plugin)
+    # accelerator = Accelerator()
 
-    accelerator = Accelerator()
-    
     model = None
     tokenizer = None
     # print(save_generations_raw_path)
@@ -103,7 +102,6 @@ def main():
                 task_names.add(matching)
         task_names = list(task_names)
     
-    # accelerator = Accelerator()
 
     if accelerator.is_main_process:
         print(f"Selected Tasks: {task_names}")
@@ -175,6 +173,13 @@ def main():
                         with open(args.save_references_path, "w") as fp:
                             json.dump(references, fp)
                             print("references were saved")
+                            
+                print('Generation raw')
+                print(generations_raw)
+                print('\n\n')
+                
+                print('Generation prc')
+                print(generations_prc)
             else:
                 print('evaluation only ---')
                 

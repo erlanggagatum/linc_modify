@@ -62,13 +62,13 @@ def main():
     # run_id='${model#*/}_${task}'
     run_id = f"{model_name}_{task}"
 
-    # print('$')
+    print(f'Tas;: {run_id}_generations_raw.json')
     args.top_k = 0
-    args.output_dir = pathlib.Path('../output/')
+    args.output_dir = pathlib.Path('output/')
     args.model = model_name
     args.temperature = 0.8
     args.max_length_generation = 1024
-    # args.generation_only = True
+    args.generation_only = True
     args.save_results = True
     args.save_generations_raw_path = args.output_dir / f'{run_id}_generations_raw.json'
     args.save_generations_prc_path = args.output_dir / f'{run_id}_generations_prc.json'
@@ -81,7 +81,18 @@ def main():
     args.allow_code_execution = True
     args.tasks = task
     args.precision = 'fp16'
+    args.save_generations_raw = True
+    args.save_generations_prc = True
+    args.save_references = True
     
+    print('save path')
+    # print(args.save_generations_raw_path)
+    # print(args.save_generations_prc_path)
+    # print(args.save_references_path)
+    # print(args.save_results_path)
+    # print(args.save_generations_raw)
+    # print(args.save_generations_prc)
+    # print(args.save_references)
     # deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=2)
     # accelerator = Accelerator(mixed_precision=args.precision, deepspeed_plugin=deepspeed_plugin)
     
@@ -90,6 +101,8 @@ def main():
 
     accelerator = Accelerator()
     
+    # print('acc: ', accelerator.is_main_process)
+    # return 0
     model = None
     tokenizer = None
     # print(save_generations_raw_path)

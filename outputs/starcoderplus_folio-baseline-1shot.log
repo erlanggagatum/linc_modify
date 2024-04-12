@@ -1,51 +1,0 @@
-The following values were not passed to `accelerate launch` and had defaults used instead:
-	`--num_cpu_threads_per_process` was set to `20` to improve out-of-box performance
-To avoid this warning pass in values for each of the problematic parameters or run `accelerate config`.
-Selected Tasks: ['folio-baseline-1shot']
-Model bigcode/starcoderplus not found in OpenAI API. Assuming HuggingFace locally.
-Loading the model and tokenizer from HF (in bf16)
-Loading checkpoint shards:   0%|          | 0/7 [00:00<?, ?it/s]Loading checkpoint shards:  14%|█▍        | 1/7 [00:05<00:30,  5.00s/it]Loading checkpoint shards:  29%|██▊       | 2/7 [00:09<00:24,  4.98s/it]Loading checkpoint shards:  43%|████▎     | 3/7 [00:14<00:19,  4.95s/it]Loading checkpoint shards:  57%|█████▋    | 4/7 [00:19<00:14,  4.94s/it]Loading checkpoint shards:  71%|███████▏  | 5/7 [00:24<00:09,  4.93s/it]Loading checkpoint shards:  86%|████████▌ | 6/7 [00:29<00:04,  4.93s/it]Loading checkpoint shards: 100%|██████████| 7/7 [00:31<00:00,  3.99s/it]Loading checkpoint shards: 100%|██████████| 7/7 [00:31<00:00,  4.53s/it]
-Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:   8%|▊         | 17/204 [00:00<00:01, 159.76 examples/s]Map:  19%|█▊        | 38/204 [00:00<00:01, 138.15 examples/s]Map:  29%|██▉       | 59/204 [00:00<00:01, 134.58 examples/s]Map:  39%|███▊      | 79/204 [00:00<00:00, 130.25 examples/s]Map:  46%|████▌     | 94/204 [00:00<00:00, 132.93 examples/s]Map:  55%|█████▌    | 113/204 [00:00<00:00, 144.84 examples/s]Map:  66%|██████▌   | 134/204 [00:00<00:00, 138.72 examples/s]Map:  76%|███████▌  | 155/204 [00:01<00:00, 135.70 examples/s]Map:  83%|████████▎ | 169/204 [00:01<00:00, 135.10 examples/s]Map:  91%|█████████ | 186/204 [00:01<00:00, 141.76 examples/s]Map: 100%|██████████| 204/204 [00:01<00:00, 135.67 examples/s]Map: 100%|██████████| 204/204 [00:01<00:00, 136.78 examples/s]
-Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 24696.59 examples/s]
-Map:   0%|          | 0/204 [00:00<?, ? examples/s]Map:   9%|▉         | 18/204 [00:00<00:01, 166.54 examples/s]Map:  19%|█▉        | 39/204 [00:00<00:01, 143.39 examples/s]Map:  29%|██▉       | 60/204 [00:00<00:01, 137.57 examples/s]Map:  39%|███▉      | 80/204 [00:00<00:00, 132.07 examples/s]Map:  47%|████▋     | 95/204 [00:00<00:00, 134.40 examples/s]Map:  56%|█████▌    | 114/204 [00:00<00:00, 147.12 examples/s]Map:  66%|██████▌   | 135/204 [00:00<00:00, 140.54 examples/s]Map:  76%|███████▋  | 156/204 [00:01<00:00, 136.87 examples/s]Map:  83%|████████▎ | 170/204 [00:01<00:00, 136.62 examples/s]Map:  92%|█████████▏| 187/204 [00:01<00:00, 143.90 examples/s]Map: 100%|██████████| 204/204 [00:01<00:00, 137.20 examples/s]Map: 100%|██████████| 204/204 [00:01<00:00, 138.79 examples/s]
-Filter:   0%|          | 0/204 [00:00<?, ? examples/s]Filter: 100%|██████████| 204/204 [00:00<00:00, 25365.01 examples/s]
-number of problems for this task is 0
-0it [00:00, ?it/s]0it [00:00, ?it/s]
-Traceback (most recent call last):
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/runner.py", line 167, in <module>
-    main()
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/runner.py", line 153, in main
-    results[task] = evaluator.evaluate(task)
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/eval/evaluator.py", line 49, in evaluate
-    generations_prc, generations_raw, references = self.generate_text(task_name)
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/eval/evaluator.py", line 89, in generate_text
-    generations_prc, generations_raw = parallel_generations(
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/eval/generation.py", line 79, in parallel_generations
-    generations_prc, generations_raw = complete_code(
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/eval/utils.py", line 119, in complete_code
-    for step, batch in tqdm(
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/tqdm/std.py", line 1181, in __iter__
-    for obj in iterable:
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/data_loader.py", line 476, in __iter__
-    next_batch, next_batch_info = self._fetch_batches(main_iterator)
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/data_loader.py", line 443, in _fetch_batches
-    batches.append(next(iterator))
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 628, in __next__
-    data = self._next_data()
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/utils/data/dataloader.py", line 671, in _next_data
-    data = self._dataset_fetcher.fetch(index)  # may raise StopIteration
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/torch/utils/data/_utils/fetch.py", line 34, in fetch
-    data.append(next(self.dataset_iter))
-  File "/home/gatum/Projects/Neurosymbolic-AI/linc2/linc/eval/utils.py", line 55, in __iter__
-    raise ValueError("Mixed infill and completion prompts are not supported.")
-ValueError: Mixed infill and completion prompts are not supported.
-Traceback (most recent call last):
-  File "/home/gatum/.conda/envs/linc/bin/accelerate", line 8, in <module>
-    sys.exit(main())
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/accelerate_cli.py", line 43, in main
-    args.func(args)
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 910, in launch_command
-    simple_launcher(args)
-  File "/home/gatum/.conda/envs/linc/lib/python3.10/site-packages/accelerate/commands/launch.py", line 400, in simple_launcher
-    raise subprocess.CalledProcessError(returncode=process.returncode, cmd=cmd)
-subprocess.CalledProcessError: Command '['/home/gatum/.conda/envs/linc/bin/python', 'runner.py', '--model', 'bigcode/starcoderplus', '--precision', 'bf16', '--use_auth_token', '--openai_api_env_keys', 'OPENAI_API_KEY', '--tasks', 'folio-baseline-1shot', '--n_samples', '10', '--batch_size', '5', '--max_length_generation', '8192', '--temperature', '0.8', '--allow_code_execution', '--trust_remote_code', '--output_dir', 'outputs', '--save_generations_raw', '--save_generations_raw_path', 'starcoderplus_folio-baseline-1shot_generations_raw.json', '--save_generations_prc', '--save_generations_prc_path', 'starcoderplus_folio-baseline-1shot_generations_prc.json', '--save_references', '--save_references_path', 'starcoderplus_folio-baseline-1shot_references.json', '--save_results', '--save_results_path', 'starcoderplus_folio-baseline-1shot_results.json']' returned non-zero exit status 1.
