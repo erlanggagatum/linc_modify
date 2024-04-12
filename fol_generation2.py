@@ -44,7 +44,12 @@ from eval.tasks import ALL_TASKS
 transformers.logging.set_verbosity_error()
 datasets.logging.set_verbosity_error()
 
+'''
+FOL GENERATION:
+result saved in output/bigcode
 
+Prover code on notebooks/1-2-FOL-result-generation.ipynb
+'''
 def main():
     args = HfArgumentParser(
         [RunnerArguments, HFArguments, OAIArguments, GenerationArguments]
@@ -86,26 +91,10 @@ def main():
     args.save_references = True
     
     print('save path')
-    # print(args.save_generations_raw_path)
-    # print(args.save_generations_prc_path)
-    # print(args.save_references_path)
-    # print(args.save_results_path)
-    # print(args.save_generations_raw)
-    # print(args.save_generations_prc)
-    # print(args.save_references)
-    # deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=2)
-    # accelerator = Accelerator(mixed_precision=args.precision, deepspeed_plugin=deepspeed_plugin)
-    
-    # deepspeed_plugin = DeepSpeedPlugin(zero_stage=3, gradient_accumulation_steps=1)
-    # accelerator = Accelerator(mixed_precision='fp16', deepspeed_plugin=deepspeed_plugin)
-
     accelerator = Accelerator()
     
-    # print('acc: ', accelerator.is_main_process)
-    # return 0
     model = None
     tokenizer = None
-    # print(save_generations_raw_path)
 
     if args.tasks is None:
         task_names = ALL_TASKS
