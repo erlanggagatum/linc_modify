@@ -41,7 +41,7 @@ class Evaluator(ABC):
     @abstractmethod
     def generate_text(self, task_name):
         pass
-
+    
     def evaluate(self, task_name):
         task = tasks.get_task(task_name)
         print(task.requires_execution, self.allow_code_execution)
